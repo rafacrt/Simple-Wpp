@@ -1,7 +1,6 @@
 <?php
 /**
 * Plugin Name: WPP Rajo
-* Plugin URI: http://rajo.com.br
 * Description: Este plugin adiciona o whatsapp ao site.
 * Version: 1.4.1
 * Author: Rafael Medeiros
