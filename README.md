@@ -1,51 +1,39 @@
-# 🚀 Custom PageSpeed
+# 📱 WPP Rajo - Botão do WhatsApp
 
-🔧 **Plugin WordPress para otimização extrema de performance**  
-📦 Desenvolvido por [Rafael Medeiros](https://github.com/rafacrt)
+Plugin WordPress simples para exibir um botão flutuante do WhatsApp no site.
 
 ---
 
 ### ⚡ Descrição
-Este plugin foi criado para **otimizar a performance de sites WordPress**, com foco no tema TwentyTwentyOne e Elementor, porém adaptável a qualquer tema leve. Remove scripts desnecessários, aplica lazy loading em imagens, carrega fontes de forma inteligente e muito mais.
+Este plugin adiciona um atalho de contato via WhatsApp fixo no canto da tela.
+O número do telefone pode ser configurado pelo menu **Botão do WhatsApp** no
+painel administrativo do WordPress.
 
 ---
 
 ### ✨ Funcionalidades
-- 🚫 Remove CSS do Gutenberg e estilos globais
-- 😎 Desativa emojis e embeds automáticos
-- 🪄 Scripts JS com `defer` para não bloquear o carregamento
-- 📉 Remove o jQuery se não for usado
-- 💤 Adiciona `lazy loading` em imagens automaticamente
-- 🔤 Preload inteligente de fontes `.woff2`
+- Exibe um botão flutuante com o ícone do WhatsApp
+- Permite definir o número de telefone com DDD nas configurações do plugin
+- Carrega automaticamente os estilos e o ícone do Font Awesome
 
 ---
 
 ### 🛠️ Tecnologias utilizadas
-- PHP 🐘
-- WordPress Core API 🧩
-- JavaScript (vanilla) ⚙️
-- HTML para pré-carregamento de fontes
-- Elementor (opcional)
+- PHP
+- WordPress Core API
+- CSS / Font Awesome
 
 ---
 
 ### 🚀 Como instalar
-1. Faça o upload da pasta `custom-pagespeed` em `/wp-content/plugins/`
+1. Envie a pasta do plugin para `/wp-content/plugins/`
 2. Ative o plugin no painel do WordPress
-3. ✅ Pronto! A mágica já está rodando em segundo plano
+3. Acesse **Botão do WhatsApp** e insira o número desejado
 
 ---
 
 ### 📜 Licença
-Este plugin é software livre; você pode redistribuí-lo e/ou modificá-lo sob os termos da **Licença Pública Geral GNU, versão 2** (ou qualquer versão posterior publicada pela Free Software Foundation).
-
-Este plugin é distribuído com a esperança de que seja útil, mas **SEM NENHUMA GARANTIA**, nem mesmo a garantia implícita de **COMERCIALIZAÇÃO** ou **ADEQUAÇÃO A UM DETERMINADO PROPÓSITO**.
-
-Veja o arquivo `LICENSE` para mais detalhes.
-
----
-
-### 💡 Recomendações
-Utilize esse plugin com temas otimizados e o mínimo de plugins adicionais para obter os melhores resultados de performance no Google PageSpeed Insights.
+Distribuído sob os termos da **Licença Pública Geral GNU, versão 3**.
+Consulte o arquivo `LICENSE` para mais detalhes.
 
 ---
