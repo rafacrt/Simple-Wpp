@@ -1,89 +1,93 @@
 <?php
-/**
-* Plugin Name: WPP Rajo
-* Description: Este plugin adiciona o whatsapp ao site.
-* Version: 1.4.1
-* Author: Rafael Medeiros
-* Author URI: http://rajo.com.br
-**/
+/*
+Plugin Name: Simple Wpp
+Plugin URI: https://github.com/rafacrt/Simple-Wpp
+Description: A simple floating WhatsApp button for WordPress. Easy to use and customize!
+Version: 1.0
+Author: Rafael Medeiros
+Author URI: https://tecnorafa.dev
+License: GPL2
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: simple-wpp
+Domain Path: /languages
+*/
 
-function add_whatsapp_button() {
-    $whatsapp_number = get_option('whatsapp_number');
-    ?>
-    <div class="floating_btn-wpp">
-        <a class="link-wpp" target="_blank" href="https://api.whatsapp.com/send?phone=<?php echo $whatsapp_number; ?>" style='text-decoration: none'>
-            <div class="contact_icon-wpp">
-                <i class="fab fa-whatsapp my-float"></i>
-            </div>
-        </a>
-    </div>
-    <?php
+if (!defined('ABSPATH')) exit;
+
+// Ativação do plugin
+function simple_wpp_activate() {
+    add_option('simple_wpp_number', '');
+    add_option('simple_wpp_message', '');
 }
+register_activation_hook(__FILE__, 'simple_wpp_activate');
 
-add_action('wp_body_open', 'add_whatsapp_button');
+// Adiciona botão ao front-end
+function simple_wpp_button() {
+    $number = esc_attr(get_option('simple_wpp_number'));
+    $message = urlencode(get_option('simple_wpp_message'));
 
-function add_whatsapp_button_styles() {
-    // rest of the function
+    if ($number) {
+        echo '<a href="https://wa.me/' . esc_attr($number) . '?text=' . esc_attr($message) . '" 
+        class="simple-wpp-float" target="_blank" rel="noopener noreferrer" 
+        style="position:fixed;bottom:20px;right:20px;z-index:999;">
+            <img src="' . esc_url(plugins_url('whatsapp-icon.png', __FILE__)) . '" alt="' . esc_attr__('Contact via WhatsApp', 'simple-wpp') . '" style="width:60px;height:60px;">
+        </a>';
+    }
 }
-add_action('wp_head', 'add_whatsapp_button_styles');
+add_action('wp_footer', 'simple_wpp_button');
 
-function whatsapp_plugin_menu() {
-    add_menu_page(
-        'Botão do WhatsApp Configurações', // page_title
-        'Botão do WhatsApp', // menu_title
-        'manage_options', // capability
-        'whatsapp-button', // menu_slug
-        'whatsapp_plugin_options_page', // function
-        'dashicons-admin-generic', // icon_url
-        20 // position
+// Adiciona página de configuração
+function simple_wpp_menu() {
+    add_options_page(
+        __('Simple Wpp Settings', 'simple-wpp'),
+        'Simple Wpp',
+        'manage_options',
+        'simple-wpp',
+        'simple_wpp_settings_page'
     );
 }
+add_action('admin_menu', 'simple_wpp_menu');
 
-function whatsapp_plugin_options_page() {
+// Página de configurações
+function simple_wpp_settings_page() {
     ?>
     <div class="wrap">
-        <h1>Configurações do Whatsapp</h1>
-        <form action="options.php" method="post">
+        <h1><?php echo esc_html__('Simple Wpp Settings', 'simple-wpp'); ?></h1>
+        <form method="post" action="options.php">
             <?php
-            settings_fields('whatsapp_options');
-            do_settings_sections('whatsapp_options');
-            submit_button('Salvar');
+                settings_fields('simple_wpp_settings');
+                do_settings_sections('simple-wpp');
+                submit_button();
             ?>
         </form>
     </div>
     <?php
 }
 
-function whatsapp_settings_init() {
-    register_setting('whatsapp_options', 'whatsapp_number');
+// Registra as configurações
+function simple_wpp_register_settings() {
+    register_setting('simple_wpp_settings', 'simple_wpp_number', [
+        'type' => 'string',
+        'sanitize_callback' => 'sanitize_text_field',
+        'default' => ''
+    ]);
 
-    add_settings_section(
-        'whatsapp_settings_section',
-        'Configuração do botão do Whatsapp',
-        '',
-        'whatsapp_options'
-    );
+    register_setting('simple_wpp_settings', 'simple_wpp_message', [
+        'type' => 'string',
+        'sanitize_callback' => 'sanitize_text_field',
+        'default' => ''
+    ]);
 
-    add_settings_field(
-        'whatsapp_number',
-        'Número do Whatsapp com DDD',
-        'whatsapp_number_field_render',
-        'whatsapp_options',
-        'whatsapp_settings_section'
-    );
+    add_settings_section('simple_wpp_main_section', '', null, 'simple-wpp');
+
+    add_settings_field('simple_wpp_number', __('WhatsApp Number (with country code)', 'simple-wpp'), function() {
+        $value = esc_attr(get_option('simple_wpp_number'));
+        echo '<input type="text" name="simple_wpp_number" value="' . $value . '" placeholder="5511999999999" style="width:300px;" />';
+    }, 'simple-wpp', 'simple_wpp_main_section');
+
+    add_settings_field('simple_wpp_message', __('Default Message', 'simple-wpp'), function() {
+        $value = esc_attr(get_option('simple_wpp_message'));
+        echo '<input type="text" name="simple_wpp_message" value="' . $value . '" style="width:300px;" />';
+    }, 'simple-wpp', 'simple_wpp_main_section');
 }
-
-function whatsapp_number_field_render() {
-    $whatsapp_number = get_option('whatsapp_number');
-    echo "<input type='text' name='whatsapp_number' value='$whatsapp_number'>";
-}
-
-function whatsapp_button_enqueue_scripts() {
-    wp_enqueue_style( 'font-awesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css' );
-    wp_enqueue_style( 'whatsapp-button', plugin_dir_url( __FILE__ ) . 'whatsapp-button.css', array(), '1.0', 'all' );
-}
-add_action( 'wp_enqueue_scripts', 'whatsapp_button_enqueue_scripts' );
-
-
-add_action('admin_menu', 'whatsapp_plugin_menu');
-add_action('admin_init', 'whatsapp_settings_init');
+add_action('admin_init', 'simple_wpp_register_settings');
