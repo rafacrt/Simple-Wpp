@@ -5,7 +5,7 @@ Plugin URI: https://github.com/rafacrt/Simple-Wpp
 Description: A simple floating WhatsApp button for WordPress. Easy to use and customize!
 Version: 1.0
 Author: Rafael Medeiros
-Author URI: https://tecnorafa.dev
+Author URI: https://rajo.com.br
 License: GPL2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: simple-wpp
